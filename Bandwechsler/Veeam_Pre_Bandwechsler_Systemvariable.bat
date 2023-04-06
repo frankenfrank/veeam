@@ -18,7 +18,7 @@ if %DAYOFWEEK%==6 set WOCHENTAG=SAMSTAG
 
 REM Es wird der aktuelle Wochentag als Systemvariable gesetzt
 ECHO Heute ist %WOCHENTAG%
-setx WOCHENTAG %WOCHENTAG%
+setx WOCHENTAG %WOCHENTAG% /m
 GOTO EOF
 
 
