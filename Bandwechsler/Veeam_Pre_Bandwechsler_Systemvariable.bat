@@ -2,12 +2,6 @@
 color 1F
 
 
-REM Diese Datei wird vor jeder Tagessicherung gestartet. Es wird die Systemvariable "Wochentag" erstellt und der jetzige Wochentag wir reingeschrieben.
-REM Dann läuft der Job, egal wie lange. Nach der Tagessicherung wird das Script "Veeam_Post_Bandwechsler_Tapejob.bat" ausgeführt.
-REM Das Script schaut nach, welcher Wochentag geschrieben wurde und nimmt das korrekte Band in den Wechsler.
-
-
-
 set DAYOFWEEK=
 REM Aktuellen Wochentag auslesen
 for /f %%g in ('wmic path win32_localtime get dayofweek^|findstr /v /r "^$"') do (
