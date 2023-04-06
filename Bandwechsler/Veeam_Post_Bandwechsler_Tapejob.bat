@@ -1,4 +1,5 @@
 @echo off
+ECHO https://github.com/frankenfrank/veeam/tree/main/Bandwechsler
 color 1F
 
 REM Die Systemvariable WOCHENTAG wird ausgelesen
