@@ -55,6 +55,9 @@ EXIT
 :ERROR1
 color 4f
 ECHO.
-ECHO Kein Wochentag gefunden
+IF NOT EXIST c:\temp MD c:\temp
+ECHO Kein Wochentag gefunden. >>c:\temp\veeam-tapejob.log
+ECHO Systemvariable WOCHENTAG prüfen >>c:\temp\veeam-tapejob.log
+ECHO SYSTEMVARIABLE %WOCHENTAG% ist %WOCHENTAG% >>c:\temp\veeam-tapejob.log
 ECHO.
 GOTO EOF
