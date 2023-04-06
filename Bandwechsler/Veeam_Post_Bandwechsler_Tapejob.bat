@@ -1,14 +1,6 @@
 @echo off
 color 1F
 
-
-REM Die Datei "Veeam_Pre_Bandwechsler_Systemvariable.bat" schreibt die Systemvariable "Wochentag" den Tag rein, an dem der Job gestartet wurde
-REM Dieses Script hier wird dann nach der Tagessicherung ausgeführt und scvhaut, welche Variable ist gesetzt und dann wird das korrekte Band geladen.
-REM Sollte die Tagessicherung v z.B. Mittwoch um 19 uhr starten und wird um 23:59 uhr fertig steht in der Systemvariable "Mittwoch",
-REM wird der Job aber erst nach Mitternacht fertig, würde Donnerstag ausgelesen werden, durch das Schreiben der Variable vor dem Start wird trotzdem das Mittwochsband genommen.
-REM Weil eben nicht der Wochentag ausgessen wird sondern die Systemvariable und die ist ja abhängig nicht vom aktuellen Tag sondern vom Tag des Starts.
-
-
 REM Die Systemvariable WOCHENTAG wird ausgelesen
 if %WOCHENTAG%==SONNTAG GOTO Sonntagsband
 if %WOCHENTAG%==MONTAG GOTO Montagsband
