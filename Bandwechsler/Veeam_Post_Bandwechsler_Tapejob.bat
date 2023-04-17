@@ -3,14 +3,15 @@ ECHO https://github.com/frankenfrank/veeam/tree/main/Bandwechsler
 color 1F
 
 REM Die Systemvariable WOCHENTAG wird ausgelesen
-if %WOCHENTAG%==SONNTAG GOTO Sonntagsband
-if %WOCHENTAG%==MONTAG GOTO Montagsband
-if %WOCHENTAG%==DIENSTAG GOTO Dienstagsband
-if %WOCHENTAG%==MITTWOCH GOTO Mittwochsband
-if %WOCHENTAG%==DONNERSTAG GOTO Donnerstagsband 
-if %WOCHENTAG%==FREITAG GOTO Freitagsband
-if %WOCHENTAG%==SAMSTAG GOTO Samstagsband
+IF EXIST c:\temp\SONNTAG.veeam GOTO Sonntagsband
+IF EXIST c:\temp\MONTAG.veeam GOTO Montagsband
+IF EXIST c:\temp\DIENSTAG.veeam GOTO Dienstagsband
+IF EXIST c:\temp\MITTWOCH.veeam GOTO Mittwochsband
+IF EXIST c:\temp\DONNERSTAG.veeam GOTO Donnerstagsband
+IF EXIST c:\temp\FREITAG.veeam GOTO Freitagsband
+IF EXIST c:\temp\SAMSTAG.veeam GOTO Samstagsband
 
+GOTO ERROR 1
 
 :Montagsband
 "C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup 5abc962e-2637-4206-84a0-776b333fd036
@@ -36,7 +37,7 @@ GOTO EOF
 ECHO kein Job heute
 GOTO EOF
 
-:Sonntagsbandband
+:Sonntagsband
 ECHO Kein Job heute
 GOTO EOF
 
@@ -45,10 +46,12 @@ GOTO ERROR1
 
 
 :EOF
+DEL c:\temp\*.veeam /q
+
 ECHO.
 ECHO.
 ECHO Wird beendet
-TIMEOUT /T 10 /NOBREAK
+TIMEOUT /T 3 /NOBREAK
 EXIT
 
 
@@ -59,5 +62,7 @@ IF NOT EXIST c:\temp MD c:\temp
 ECHO Kein Wochentag gefunden. >>c:\temp\veeam-tapejob.log
 ECHO Systemvariable WOCHENTAG prüfen >>c:\temp\veeam-tapejob.log
 ECHO SYSTEMVARIABLE %WOCHENTAG% ist %WOCHENTAG% >>c:\temp\veeam-tapejob.log
+ECHO oder die zweite Variante mit einer Datei als Sprungmarke hat nicht funktioniert. >>c:\temp\veeam-tapejob.log
+ECHO Gibt es die Datei c:\temp\WOCHENTAG.veeam >>c:\temp\veeam-tapejob.log
 ECHO.
 GOTO EOF
