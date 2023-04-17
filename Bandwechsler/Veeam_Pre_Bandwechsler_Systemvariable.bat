@@ -1,6 +1,8 @@
 @echo off
 ECHO https://github.com/frankenfrank/veeam/tree/main/Bandwechsler
 color 1F
+IF NOT EXIST c:\temp MD c:\temp
+CLS
 
 
 set DAYOFWEEK=
@@ -16,9 +18,14 @@ if %DAYOFWEEK%==5 set WOCHENTAG=FREITAG
 if %DAYOFWEEK%==6 set WOCHENTAG=SAMSTAG
 
 
-REM Es wird der aktuelle Wochentag als Systemvariable gesetzt
-ECHO Heute ist %WOCHENTAG%
-setx WOCHENTAG %WOCHENTAG% /m
+REM Es wird der aktuelle Wochentag als Datei gespeichert
+REM Dann legen wir eine Datei unter c:\temp an, löschen aber vorher, falls es noch altlasten gibt.
+DEL c:\temp\*.veeam /q
+TIMEOUT /T 2 /NOBREAK
+
+ECHO %WOCHENTAG% >C:\temp\%WOCHENTAG%.veeam
+ECHO WOCHENTAG %WOCHENTAG% >C:\temp\veeam_wochentag.log
+
 GOTO EOF
 
 
@@ -26,6 +33,6 @@ GOTO EOF
 ECHO.
 ECHO.
 ECHO Wird beendet
-TIMEOUT /T 1 /NOBREAK
+TIMEOUT /T 2 /NOBREAK
 EXIT
 
