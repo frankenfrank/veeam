@@ -1,28 +1,29 @@
-@echo off
+@ECHO OFF
 ECHO https://github.com/frankenfrank/veeam/tree/main/Bandwechsler
-color 1F
+COLOR 1F
 IF NOT EXIST c:\temp MD c:\temp
 CLS
 
 
-set DAYOFWEEK=
+SET DAYOFWEEK=
 REM Aktuellen Wochentag auslesen
-for /f %%g in ('wmic path win32_localtime get dayofweek^|findstr /v /r "^$"') do (
-set DAYOFWEEK=%%g)
-if %DAYOFWEEK%==0 set WOCHENTAG=SONNTAG
-if %DAYOFWEEK%==1 set WOCHENTAG=MONTAG
-if %DAYOFWEEK%==2 set WOCHENTAG=DIENSTAG
-if %DAYOFWEEK%==3 set WOCHENTAG=MITTWOCH
-if %DAYOFWEEK%==4 set WOCHENTAG=DONNERSTAG
-if %DAYOFWEEK%==5 set WOCHENTAG=FREITAG
-if %DAYOFWEEK%==6 set WOCHENTAG=SAMSTAG
+FOR /f %%g in ('wmic path win32_localtime get dayofweek^|findstr /v /r "^$"') do (
+SET DAYOFWEEK=%%g)
+IF %DAYOFWEEK%==0 SET WOCHENTAG=SONNTAG
+IF %DAYOFWEEK%==1 SET WOCHENTAG=MONTAG
+IF %DAYOFWEEK%==2 SET WOCHENTAG=DIENSTAG
+IF %DAYOFWEEK%==3 SET WOCHENTAG=MITTWOCH
+IF %DAYOFWEEK%==4 SET WOCHENTAG=DONNERSTAG
+IF %DAYOFWEEK%==5 SET WOCHENTAG=FREITAG
+IF %DAYOFWEEK%==6 SET WOCHENTAG=SAMSTAG
 
 
 REM Es wird der aktuelle Wochentag als Datei gespeichert
-REM Dann legen wir eine Datei unter c:\temp an, löschen aber vorher, falls es noch altlasten gibt.
+REM Dann legen wir eine Datei unter c:\temp an, löschen aber vorher, falls es noch Altlasten gibt.
 DEL c:\temp\*.veeam /q
 TIMEOUT /T 2 /NOBREAK
 
+SETX WOCHENTAG %WOCHENTAG%
 ECHO %WOCHENTAG% >C:\temp\%WOCHENTAG%.veeam
 ECHO WOCHENTAG %WOCHENTAG% >C:\temp\veeam_wochentag.log
 
