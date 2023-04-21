@@ -23,9 +23,12 @@ REM Dann legen wir eine Datei unter c:\temp an, löschen aber vorher, falls es n
 DEL c:\temp\*.veeam /q
 TIMEOUT /T 2 /NOBREAK
 
-SETX WOCHENTAG %WOCHENTAG%
 ECHO %WOCHENTAG% >C:\temp\%WOCHENTAG%.veeam
 ECHO WOCHENTAG %WOCHENTAG% >C:\temp\veeam_wochentag.log
+
+REM Das mit der Systemvariable ist noch im Beta Stadium.
+SETX WOCHENTAG %WOCHENTAG% /m
+
 
 GOTO EOF
 
@@ -36,4 +39,3 @@ ECHO.
 ECHO Wird beendet
 TIMEOUT /T 2 /NOBREAK
 EXIT
-
