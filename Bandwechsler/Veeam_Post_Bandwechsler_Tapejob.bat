@@ -14,6 +14,7 @@ IF EXIST c:\temp\FREITAG.veeam GOTO Freitagsband
 IF EXIST c:\temp\SAMSTAG.veeam GOTO Samstagsband
 
 :SYSVAR
+REM Das mit der Systemvariable ist noch im Beta Stadium.
 REM Die Systemvariable WOCHENTAG wird ausgelesen
 IF %WOCHENTAG%==SONNTAG GOTO Sonntagsband
 IF %WOCHENTAG%==MONTAG GOTO Montagsband
