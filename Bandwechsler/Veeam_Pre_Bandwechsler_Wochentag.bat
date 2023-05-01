@@ -1,33 +1,65 @@
-@ECHO OFF
+@echo off
 ECHO https://github.com/frankenfrank/veeam/tree/main/Bandwechsler
-COLOR 1F
+color 1F
 IF NOT EXIST c:\temp MD c:\temp
 CLS
 
+REM FEIERTAGE AUSLESEN
+REM Hier die FEIERTAG eintragen, die werden dann in eine Datei geschrieben
+REM Feiertage festes Datum
+ECHO 01.01. >C:\temp\FEIERTAGE.txt
+ECHO 06.01. >>C:\temp\FEIERTAGE.txt
+ECHO 01.05. >>C:\temp\FEIERTAGE.txt
+ECHO 18.05. >>C:\temp\FEIERTAGE.txt
+ECHO 29.05. >>C:\temp\FEIERTAGE.txt
+ECHO 08.06. >>C:\temp\FEIERTAGE.txt
+ECHO 08.08. >>C:\temp\FEIERTAGE.txt
+ECHO 15.08. >>C:\temp\FEIERTAGE.txt
+ECHO 03.10. >>C:\temp\FEIERTAGE.txt
+ECHO 01.11. >>C:\temp\FEIERTAGE.txt
+ECHO 24.12. >>C:\temp\FEIERTAGE.txt
+ECHO 25.12. >>C:\temp\FEIERTAGE.txt
+ECHO 26.12. >>C:\temp\FEIERTAGE.txt
+ECHO 31.12. >>C:\temp\FEIERTAGE.txt
+REM Feiertage die sich ändern
+ECHO 07.04.2023 >>C:\temp\FEIERTAGE.txt
+ECHO 10.04.2023 >>C:\temp\FEIERTAGE.txt
 
-SET DAYOFWEEK=
+
+REM heutiges Datum in Liste suchen lassen
+find C:\temp\FEIERTAGE.txt "%date%:~0,-4"
+IF ERRORLEVEL 0 GOTO FEIERTAG
+GOTO WORKDAY
+
+:FEIERTAG
+ECHO %DATE% >C:\temp\FEIERTAG.bayern
+del c:\temp\FEIERTAGE.txt /q
+
+
+
+:WORKDAY
+set DAYOFWEEK=
 REM Aktuellen Wochentag auslesen
-FOR /f %%g in ('wmic path win32_localtime get dayofweek^|findstr /v /r "^$"') do (
-SET DAYOFWEEK=%%g)
-IF %DAYOFWEEK%==0 SET WOCHENTAG=SONNTAG
-IF %DAYOFWEEK%==1 SET WOCHENTAG=MONTAG
-IF %DAYOFWEEK%==2 SET WOCHENTAG=DIENSTAG
-IF %DAYOFWEEK%==3 SET WOCHENTAG=MITTWOCH
-IF %DAYOFWEEK%==4 SET WOCHENTAG=DONNERSTAG
-IF %DAYOFWEEK%==5 SET WOCHENTAG=FREITAG
-IF %DAYOFWEEK%==6 SET WOCHENTAG=SAMSTAG
+for /f %%g in ('wmic path win32_localtime get dayofweek^|findstr /v /r "^$"') do (
+set DAYOFWEEK=%%g)
+if %DAYOFWEEK%==0 set WOCHENTAG=SONNTAG
+if %DAYOFWEEK%==1 set WOCHENTAG=MONTAG
+if %DAYOFWEEK%==2 set WOCHENTAG=DIENSTAG
+if %DAYOFWEEK%==3 set WOCHENTAG=MITTWOCH
+if %DAYOFWEEK%==4 set WOCHENTAG=DONNERSTAG
+if %DAYOFWEEK%==5 set WOCHENTAG=FREITAG
+if %DAYOFWEEK%==6 set WOCHENTAG=SAMSTAG
 
 
 REM Es wird der aktuelle Wochentag als Datei gespeichert
-REM Dann legen wir eine Datei unter c:\temp an, löschen aber vorher, falls es noch Altlasten gibt.
+REM Dann legen wir eine Datei unter c:\temp an, löschen aber vorher, falls es noch altlasten gibt.
 DEL c:\temp\*.veeam /q
-TIMEOUT /T 2 /NOBREAK
+TIMEOUT /T 2 /NOBREAK >NUL
 
 ECHO %WOCHENTAG% >C:\temp\%WOCHENTAG%.veeam
-ECHO WOCHENTAG %WOCHENTAG% >C:\temp\veeam_wochentag.log
 
-REM Das mit der Systemvariable ist noch im Beta Stadium.
-SETX WOCHENTAG %WOCHENTAG% /m
+REM Systemvariable ist noch in Beta-Status
+SETX VEEAM-WOCHENTAG "%WOCHENTAG%" /m
 
 
 GOTO EOF
@@ -39,3 +71,4 @@ ECHO.
 ECHO Wird beendet
 TIMEOUT /T 2 /NOBREAK
 EXIT
+
