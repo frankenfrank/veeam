@@ -2,6 +2,16 @@
 ECHO https://github.com/frankenfrank/veeam/tree/main/Bandwechsler
 ECHO 1F
 
+REM Wenn ein Feiertag ist wurde vorher die Datei FEIERTAG.txt geschrieben dannn wird kein Band geschrieben, weil sicher noch das Band von letzter Woche drin ist.
+IF EXIST c:\temp\FEIERTAG.bayern (
+GOTO EOF
+) ELSE (GOTO TAPESTART)
+
+
+:TAPESTART
+:BETA
+ECHO WOCHENTAG %VEEAM-WOCHENTAG% >C:\temp\veeam_wochentag.log
+
 
 :FILE
 REM Als Backup wird der die Datei mit dem Wochentag abgefragt
@@ -16,13 +26,13 @@ IF EXIST c:\temp\SAMSTAG.veeam GOTO Samstagsband
 :SYSVAR
 REM Das mit der Systemvariable ist noch im Beta Stadium.
 REM Die Systemvariable WOCHENTAG wird ausgelesen
-IF %WOCHENTAG%==SONNTAG GOTO Sonntagsband
-IF %WOCHENTAG%==MONTAG GOTO Montagsband
-IF %WOCHENTAG%==DIENSTAG GOTO Dienstagsband
-IF %WOCHENTAG%==MITTWOCH GOTO Mittwochsband
-IF %WOCHENTAG%==DONNERSTAG GOTO Donnerstagsband 
-IF %WOCHENTAG%==FREITAG GOTO Freitagsband
-IF %WOCHENTAG%==SAMSTAG GOTO Samstagsband
+IF %VEEAM-WOCHENTAG%==SONNTAG GOTO Sonntagsband
+IF %VEEAM-WOCHENTAG%==MONTAG GOTO Montagsband
+IF %VEEAM-WOCHENTAG%==DIENSTAG GOTO Dienstagsband
+IF %VEEAM-WOCHENTAG%==MITTWOCH GOTO Mittwochsband
+IF %VEEAM-WOCHENTAG%==DONNERSTAG GOTO Donnerstagsband 
+IF %VEEAM-WOCHENTAG%==FREITAG GOTO Freitagsband
+IF %VEEAM-WOCHENTAG%==SAMSTAG GOTO Samstagsband
 
 
 GOTO ERROR 1
@@ -62,7 +72,7 @@ GOTO ERROR1
 
 :EOF
 DEL c:\temp\*.veeam /q
-
+DEL c:\temp\*.bayern /q
 ECHO.
 ECHO.
 ECHO Wird beendet
