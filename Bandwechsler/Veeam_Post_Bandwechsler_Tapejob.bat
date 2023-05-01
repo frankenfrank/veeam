@@ -2,6 +2,16 @@
 ECHO https://github.com/frankenfrank/veeam/tree/main/Bandwechsler
 ECHO 1F
 
+REM Hier die Jpb-ID aus Veeam für jeden Wochentag eintragen
+SET IDMONTAG=5abc962e-2637-4206-84a0-776b333fd036
+SET IDDIENSTAG=c5b76380-fe3d-45e5-8d06-e9d144fdd733
+SET IDMITTWOCH=71892983-488b-4bbc-860c-e8bb27803da1
+SET IDDONNERSTAG=7bee2e49-95ce-4664-8edd-b71aee1bb790
+SET IDFREITAG=b2ee7171-c878-493c-93a2-7d656b30ce07
+SET IDSAMSTAG=
+SET IDSONNTAG=
+
+
 REM Wenn ein Feiertag ist wurde vorher die Datei FEIERTAG.txt geschrieben dannn wird kein Band geschrieben, weil sicher noch das Band von letzter Woche drin ist.
 IF EXIST c:\temp\FEIERTAG.bayern (
 GOTO EOF
@@ -39,23 +49,23 @@ GOTO ERROR 1
 
 
 :Montagsband
-"C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup 5abc962e-2637-4206-84a0-776b333fd036
+"C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %IDMONTAG%
 GOTO EOF
 
 :Dienstagsband
-"C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup c5b76380-fe3d-45e5-8d06-e9d144fdd733
+"C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %IDDIENSTAG%
 GOTO EOF
 
 :Mittwochsband
-"C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup 71892983-488b-4bbc-860c-e8bb27803da1
+"C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %IDMITTWOCH%
 GOTO EOF
 
 :Donnerstagsband
-"C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup 7bee2e49-95ce-4664-8edd-b71aee1bb790
+"C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %IDDONNERSTAG%
 GOTO EOF
 
 :Freitagsband
-"C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup b2ee7171-c878-493c-93a2-7d656b30ce07
+"C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %IDFREITAG%
 GOTO EOF
 
 :Samstagsband
