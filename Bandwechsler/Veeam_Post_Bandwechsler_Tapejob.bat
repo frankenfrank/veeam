@@ -1,6 +1,7 @@
 @ECHO OFF
 ECHO https://github.com/frankenfrank/veeam/tree/main/Bandwechsler
-ECHO 1F
+COLOR 1F
+cls
 
 REM Hier die Jpb-ID aus Veeam für jeden Wochentag eintragen
 SET IDMONTAG=5abc962e-2637-4206-84a0-776b333fd036
@@ -12,77 +13,65 @@ SET IDSAMSTAG=
 SET IDSONNTAG=
 
 
-REM Wenn ein Feiertag ist wurde vorher die Datei FEIERTAG.txt geschrieben dannn wird kein Band geschrieben, weil sicher noch das Band von letzter Woche drin ist.
-IF EXIST c:\temp\FEIERTAG.bayern (
-GOTO EOF
-) ELSE (GOTO TAPESTART)
+IF %VEEAMTAG%==FEIERTAG GOTO FEIERTAG
 
 
 :TAPESTART
-:BETA
-ECHO WOCHENTAG %VEEAM-WOCHENTAG% >C:\temp\veeam_wochentag.log
-
-
-:FILE
-REM Als Backup wird der die Datei mit dem Wochentag abgefragt
-IF EXIST c:\temp\SONNTAG.veeam GOTO Sonntagsband
-IF EXIST c:\temp\MONTAG.veeam GOTO Montagsband
-IF EXIST c:\temp\DIENSTAG.veeam GOTO Dienstagsband
-IF EXIST c:\temp\MITTWOCH.veeam GOTO Mittwochsband
-IF EXIST c:\temp\DONNERSTAG.veeam GOTO Donnerstagsband
-IF EXIST c:\temp\FREITAG.veeam GOTO Freitagsband
-IF EXIST c:\temp\SAMSTAG.veeam GOTO Samstagsband
-
-:SYSVAR
-REM Das mit der Systemvariable ist noch im Beta Stadium.
 REM Die Systemvariable WOCHENTAG wird ausgelesen
-IF %VEEAM-WOCHENTAG%==SONNTAG GOTO Sonntagsband
-IF %VEEAM-WOCHENTAG%==MONTAG GOTO Montagsband
-IF %VEEAM-WOCHENTAG%==DIENSTAG GOTO Dienstagsband
-IF %VEEAM-WOCHENTAG%==MITTWOCH GOTO Mittwochsband
-IF %VEEAM-WOCHENTAG%==DONNERSTAG GOTO Donnerstagsband 
-IF %VEEAM-WOCHENTAG%==FREITAG GOTO Freitagsband
-IF %VEEAM-WOCHENTAG%==SAMSTAG GOTO Samstagsband
-
+IF %WOCHENTAG%==SONNTAG GOTO Sonntagsband
+IF %WOCHENTAG%==MONTAG GOTO Montagsband
+IF %WOCHENTAG%==DIENSTAG GOTO Dienstagsband
+IF %WOCHENTAG%==MITTWOCH GOTO Mittwochsband
+IF %WOCHENTAG%==DONNERSTAG GOTO Donnerstagsband 
+IF %WOCHENTAG%==FREITAG GOTO Freitagsband
+IF %WOCHENTAG%==SAMSTAG GOTO Samstagsband
 
 GOTO ERROR 1
 
 
 :Montagsband
+ECHO %WOCHENTAG%
 "C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %IDMONTAG%
 GOTO EOF
 
 :Dienstagsband
+ECHO %WOCHENTAG%
 "C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %IDDIENSTAG%
 GOTO EOF
 
 :Mittwochsband
+ECHO %WOCHENTAG%
 "C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %IDMITTWOCH%
 GOTO EOF
 
 :Donnerstagsband
+ECHO %WOCHENTAG%
 "C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %IDDONNERSTAG%
 GOTO EOF
 
 :Freitagsband
+ECHO %WOCHENTAG%
 "C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %IDFREITAG%
 GOTO EOF
 
 :Samstagsband
+ECHO %WOCHENTAG%
 ECHO kein Job heute
 GOTO EOF
 
 :Sonntagsband
+ECHO %WOCHENTAG%
 ECHO Kein Job heute
 GOTO EOF
 
 
 GOTO ERROR1
 
+:FEIERTAG
+ECHO %date% >c:\temp\%VEEAMTAG%.txt
+GOTO EOF
 
 :EOF
-DEL c:\temp\*.veeam /q
-DEL c:\temp\*.bayern /q
 ECHO.
 ECHO.
 ECHO Wird beendet
