@@ -28,42 +28,28 @@ ECHO 29.05.2023 >>C:\temp\FEIERTAGE.txt
 REM Fronleichnam
 ECHO 08.06.2023 >>C:\temp\FEIERTAGE.txt
 
+
 REM heutiges Datum in Liste suchen lassen
 FIND C:\temp\FEIERTAGE.txt "%date%:~0,-4"
-IF ERRORLEVEL 0 GOTO FEIERTAG
-GOTO WORKDAY
-
-:FEIERTAG
-ECHO %DATE% >C:\temp\FEIERTAG.bayern
-del c:\temp\FEIERTAGE.txt /q
+IF %ERRORLEVEL%==0 SETX VEEAMTAG FEIERTAG /m
+IF %ERRORLEVEL%==1 SETX VEEAMTAG WERKTAG /m
 
 
-
-:WORKDAY
-set DAYOFWEEK=
+:DAYOFWEEK
+SET DAYOFWEEK=
 REM Aktuellen Wochentag auslesen
-for /f %%g in ('wmic path win32_localtime get dayofweek^|findstr /v /r "^$"') do (
-set DAYOFWEEK=%%g)
-if %DAYOFWEEK%==0 set WOCHENTAG=SONNTAG
-if %DAYOFWEEK%==1 set WOCHENTAG=MONTAG
-if %DAYOFWEEK%==2 set WOCHENTAG=DIENSTAG
-if %DAYOFWEEK%==3 set WOCHENTAG=MITTWOCH
-if %DAYOFWEEK%==4 set WOCHENTAG=DONNERSTAG
-if %DAYOFWEEK%==5 set WOCHENTAG=FREITAG
-if %DAYOFWEEK%==6 set WOCHENTAG=SAMSTAG
+FOR /f %%g in ('wmic path win32_localtime get dayofweek^|findstr /v /r "^$"') do (
+SET DAYOFWEEK=%%g)
+IF %DAYOFWEEK%==0 SETX /m WOCHENTAG SONNTAG
+IF %DAYOFWEEK%==1 SETX /m WOCHENTAG MONTAG
+IF %DAYOFWEEK%==2 SETX /m WOCHENTAG DIENSTAG
+IF %DAYOFWEEK%==3 SETX /m WOCHENTAG MITTWOCH
+IF %DAYOFWEEK%==4 SETX /m WOCHENTAG DONNERSTAG
+IF %DAYOFWEEK%==5 SETX /m WOCHENTAG FREITAG
+IF %DAYOFWEEK%==6 SETX /m WOCHENTAG SAMSTAG
 
-REM Wenn der Freitag ein Feiertag ist, muss trotzdem ein Band geschrieben werden wiel es dann die Wochen oder Monatssicherung sein kann.
-IF %WOCHENTAG%==FREITAG DEL /Q c:\*.bayern
-
-REM Es wird der aktuelle Wochentag als Datei gespeichert
-REM Dann legen wir eine Datei unter c:\temp an, löschen aber vorher, falls es noch altlasten gibt.
-DEL c:\temp\*.veeam /q
-TIMEOUT /T 2 /NOBREAK >NUL
-
-ECHO %WOCHENTAG% >C:\temp\%WOCHENTAG%.veeam
-
-REM Systemvariable ist noch in Beta-Status
-SETX VEEAM-WOCHENTAG "%WOCHENTAG%" /m
+REM Wenn der Freitag ein Feiertag ist, muss trotzdem ein Band geschrieben werden wiel es dann die Wochen- oder Monatssicherung sein kann.
+IF %WOCHENTAG%==FREITAG SETX VEEAMTAG WERKTAG /m
 
 GOTO EOF
 
@@ -73,5 +59,6 @@ ECHO.
 ECHO.
 ECHO Wird beendet
 TIMEOUT /T 2 /NOBREAK
+pause
 EXIT
 
