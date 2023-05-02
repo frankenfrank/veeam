@@ -72,8 +72,6 @@ ECHO %date% >c:\temp\%VEEAMTAG%.txt
 GOTO EOF
 
 :EOF
-ECHO.
-ECHO.
 ECHO Wird beendet
 TIMEOUT /T 3 /NOBREAK
 EXIT
