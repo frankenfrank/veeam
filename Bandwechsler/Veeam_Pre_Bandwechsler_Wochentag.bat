@@ -55,10 +55,7 @@ GOTO EOF
 
 
 :EOF
-ECHO.
-ECHO.
 ECHO Wird beendet
 TIMEOUT /T 2 /NOBREAK
-pause
 EXIT
 
