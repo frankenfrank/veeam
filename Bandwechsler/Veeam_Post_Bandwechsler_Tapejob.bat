@@ -1,90 +1,35 @@
 @ECHO OFF
-ECHO https://github.com/frankenfrank/veeam/tree/main/Bandwechsler
+REM https://github.com/frankenfrank/veeam/tree/main/Bandwechsler
 COLOR 1F
-cls
 
-REM Hier die Jpb-ID aus Veeam für jeden Wochentag eintragen
-SET IDMONTAG=5abc962e-2637-4206-84a0-776b333fd036
-SET IDDIENSTAG=c5b76380-fe3d-45e5-8d06-e9d144fdd733
-SET IDMITTWOCH=71892983-488b-4bbc-860c-e8bb27803da1
-SET IDDONNERSTAG=7bee2e49-95ce-4664-8edd-b71aee1bb790
-SET IDFREITAG=b2ee7171-c878-493c-93a2-7d656b30ce07
-SET IDSAMSTAG=
-SET IDSONNTAG=
+IF NOT EXIST c:\temp\*.veeam GOTO ERROR 1
 
-
-IF %VEEAMTAG%==FEIERTAG GOTO FEIERTAG
-
-
-:TAPESTART
+:WEEKDAY
 REM Die Systemvariable WOCHENTAG wird ausgelesen
-IF %WOCHENTAG%==SONNTAG GOTO Sonntagsband
-IF %WOCHENTAG%==MONTAG GOTO Montagsband
-IF %WOCHENTAG%==DIENSTAG GOTO Dienstagsband
-IF %WOCHENTAG%==MITTWOCH GOTO Mittwochsband
-IF %WOCHENTAG%==DONNERSTAG GOTO Donnerstagsband 
-IF %WOCHENTAG%==FREITAG GOTO Freitagsband
-IF %WOCHENTAG%==SAMSTAG GOTO Samstagsband
+IF EXIST c:\temp\MONTAG.veeam SET JOBID=5abc962e-2637-4206-84a0-776b333fd036
+IF EXIST c:\temp\DIENSTAG.veeam SET JOBID=c5b76380-fe3d-45e5-8d06-e9d144fdd733
+IF EXIST c:\temp\MITTWOCH.veeam SET JOBID=71892983-488b-4bbc-860c-e8bb27803da1
+IF EXIST c:\temp\DONNERSTAG.veeam SET JOBID=7bee2e49-95ce-4664-8edd-b71aee1bb790
+IF EXIST c:\temp\FREITAG.veeam SET JOBID=b2ee7171-c878-493c-93a2-7d656b30ce07
+IF EXIST c:\temp\SAMSTAG.veeam SET JOBID=
+IF EXIST c:\temp\SONNTAG.veeam SET JOBID=
 
-GOTO ERROR 1
+IF NOT EXIST c:\temp\*.veeam GOTO ERROR1
 
-
-:Montagsband
-ECHO %WOCHENTAG%
-"C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %IDMONTAG%
-GOTO EOF
-
-:Dienstagsband
-ECHO %WOCHENTAG%
-"C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %IDDIENSTAG%
-GOTO EOF
-
-:Mittwochsband
-ECHO %WOCHENTAG%
-"C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %IDMITTWOCH%
-GOTO EOF
-
-:Donnerstagsband
-ECHO %WOCHENTAG%
-"C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %IDDONNERSTAG%
-GOTO EOF
-
-:Freitagsband
-ECHO %WOCHENTAG%
-"C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %IDFREITAG%
-GOTO EOF
-
-:Samstagsband
-ECHO %WOCHENTAG%
-ECHO kein Job heute
-GOTO EOF
-
-:Sonntagsband
-ECHO %WOCHENTAG%
-ECHO Kein Job heute
-GOTO EOF
-
-
-GOTO ERROR1
-
-:FEIERTAG
-ECHO %date% >c:\temp\%VEEAMTAG%.txt
+REM Job wird mit passender Job-ID gestartet
+:JOBSTART
+"C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %JOBID%
 GOTO EOF
 
 :EOF
-ECHO Wird beendet
+ECHO Script Ende
 TIMEOUT /T 3 /NOBREAK
 EXIT
 
 
 :ERROR1
-COLOR 4F
-ECHO.
-IF NOT EXIST c:\temp MD c:\temp
-ECHO Kein Wochentag gefunden. >>c:\temp\veeam-tapejob.log
-ECHO Systemvariable WOCHENTAG prüfen >>c:\temp\veeam-tapejob.log
-ECHO SYSTEMVARIABLE %WOCHENTAG% ist %WOCHENTAG% >>c:\temp\veeam-tapejob.log
-ECHO oder die zweite Variante mit einer Datei als Sprungmarke hat nicht funktioniert. >>c:\temp\veeam-tapejob.log
-ECHO Gibt es die Datei c:\temp\WOCHENTAG.veeam >>c:\temp\veeam-tapejob.log
-ECHO.
+REM Fehlerbehandlung wenn keine Datei geschrieben wurde.
+SET LOGERROR1=c:\temp\TAPEJOB-ERROR1.log
+ECHO Keine Datei mit dem Wochentag gefunden. >%ERROR1%
+ECHO %date% - %time:~0,-3% Uhr >>%ERROR1%
 GOTO EOF
