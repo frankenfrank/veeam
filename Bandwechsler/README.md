@@ -1,4 +1,4 @@
-Die Datei "Veeam_Pre_Bandwechsler_Wochentag.bat" wird vor jeder Tagessicherung gestartet und erzeugt eine Datei "c:\temp\\%WOCHENTAG%.veeam".
+Die Datei "Veeam_Pre_Bandwechsler_Wochentag.bat" wird vor jeder Tagessicherung gestartet und erzeugt eine Datei "%WOCHENTAG%.veeam".
 
 Veeam_Post_Bandwechsler_Tapejob.bat dann nach der Tagessicherung ausgeführt und prüft, ob welche Datei erzeugt wurde ( z.B. c:\temp\DONNERSTAG.veeam ).
 
