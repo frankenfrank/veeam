@@ -10,7 +10,7 @@ REM Delete old Files with file extension "veeam".
 DEL c:\temp\*.veeam /q
 
 :DAYOFWEEK
-for /f %%i in ('powershell ^(get-date^).DayOfWeek') do echo %%i >%FOLDER%\%%i.test
+for /f %%i in ('powershell ^(get-date^).DayOfWeek') do echo %%i >%FOLDER%\%%i.veeam
 
 GOTO EOF
 
