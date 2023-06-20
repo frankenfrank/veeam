@@ -1,14 +1,16 @@
 @ECHO OFF
 REM https://github.com/frankenfrank/veeam/tree/main/Bandwechsler
 COLOR 1F
-IF NOT EXIST c:\temp MD c:\temp
-CLS
+
+SET FOLDER=c:\temp
+
+IF NOT EXIST %FOLDER% MD %FOLDER%
 
 REM Delete old Files with file extension "veeam".
 DEL c:\temp\*.test
 
 :DAYOFWEEK
-for /f %%i in ('powershell ^(get-date^).DayOfWeek') do echo %%i >c:\temp\%%i.test
+for /f %%i in ('powershell ^(get-date^).DayOfWeek') do echo %%i >%FOLDER%\%%i.test
 
 GOTO EOF
 
