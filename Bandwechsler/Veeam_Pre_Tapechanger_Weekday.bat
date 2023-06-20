@@ -11,7 +11,7 @@ DEL c:\temp\*.veeam /q
 
 :DAYOFWEEK
 for /f %%i in ('powershell ^(get-date^).DayOfWeek') do echo %%i >%FOLDER%\%%i.veeam
-ECHO %%i
+dir %FOLDER% /b | find "veeam"
 GOTO EOF
 
 :EOF
