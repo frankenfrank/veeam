@@ -20,6 +20,7 @@ IF NOT EXIST %FOLDER%\*.veeam GOTO ERROR1
 GOTO EOF
 
 :JOBSTART
+dir %FOLDER% /b | find "veeam"
 "C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %JOBID%
 GOTO EOF
 
