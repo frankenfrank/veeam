@@ -7,7 +7,7 @@ SET FOLDER=c:\temp
 IF NOT EXIST %FOLDER%\*.veeam GOTO ERROR 1
 
 :WEEKDAY
-REM Lookong for File with Name of Weekday
+REM Looking for File with name of weekday
 IF EXIST %FOLDER%\MONDAY.veeam SET JOBID=5abc962e-2637-4206-84a0-776b333fd036
 IF EXIST %FOLDER%\TUESDAY.veeam SET JOBID=c5b76380-fe3d-45e5-8d06-e9d144fdd733
 IF EXIST %FOLDER%\WEDNESDAY.veeam SET JOBID=71892983-488b-4bbc-860c-e8bb27803da1
