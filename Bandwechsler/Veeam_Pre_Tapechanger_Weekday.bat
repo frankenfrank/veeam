@@ -1,4 +1,4 @@
-@ECHO OFF
+HO@ECHO OFF
 REM https://github.com/frankenfrank/veeam/tree/main/Bandwechsler
 COLOR 1F
 
@@ -11,7 +11,7 @@ DEL c:\temp\*.veeam /q
 
 :DAYOFWEEK
 for /f %%i in ('powershell ^(get-date^).DayOfWeek') do echo %%i >%FOLDER%\%%i.veeam
-
+ECHO %%i
 GOTO EOF
 
 :EOF
