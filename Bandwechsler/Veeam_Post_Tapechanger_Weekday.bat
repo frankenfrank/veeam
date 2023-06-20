@@ -17,6 +17,7 @@ IF EXIST %FOLDER%\FRIDAY.veeam SET JOBID=b2ee7171-c878-493c-93a2-7d656b30ce07
 ::IF EXIST %FOLDER%\SUNDAY.veeam GOTO EOF
 
 IF NOT EXIST %FOLDER%\*.veeam GOTO ERROR1
+GOTO EOF
 
 :JOBSTART
 "C:\Program Files\Veeam\Backup and Replication\Backup\Veeam.Backup.Manager.exe" backup %JOBID%
