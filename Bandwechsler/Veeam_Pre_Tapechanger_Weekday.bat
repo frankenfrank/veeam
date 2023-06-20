@@ -1,4 +1,4 @@
-HO@ECHO OFF
+@ECHO OFF
 REM https://github.com/frankenfrank/veeam/tree/main/Bandwechsler
 COLOR 1F
 
