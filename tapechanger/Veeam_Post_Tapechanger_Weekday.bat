@@ -1,5 +1,5 @@
 @ECHO OFF
-REM https://github.com/frankenfrank/veeam/tree/main/Bandwechsler
+REM https://github.com/frankenfrank/veeam/tapechanger
 COLOR 1F
 
 SET FOLDER=c:\temp
