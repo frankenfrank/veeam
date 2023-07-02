@@ -1,5 +1,5 @@
 @ECHO OFF
-REM https://github.com/frankenfrank/veeam/tree/main/tapechanger
+REM https://github.com/frankenfrank/veeam/tree/main/Bandwechsler
 COLOR 1F
 
 SET FOLDER=c:\temp
@@ -16,6 +16,8 @@ GOTO EOF
 
 :EOF
 ECHO.
+ECHO.
+dir /b %FOLDER% | find ".veeam"
 ECHO.
 ECHO Script End
 TIMEOUT /T 3 /NOBREAK
