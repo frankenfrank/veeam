@@ -12,7 +12,6 @@ DEL c:\temp\*.veeam /q
 
 :DAYOFWEEK
 for /f %%i in ('powershell ^(get-date^).DayOfWeek') do echo %%i >%FOLDER%\%%i.veeam
-
 GOTO EOF
 
 :EOF
@@ -25,9 +24,7 @@ TIMEOUT /T 3 /NOBREAK
 EXIT
 
 COLOR 1F
-
 SET FOLDER=c:\temp
-
 IF NOT EXIST %FOLDER%\*.veeam GOTO ERROR 1
 
 :WEEKDAY
@@ -41,7 +38,6 @@ IF EXIST %FOLDER%\FRIDAY.veeam SET JOBID=b2ee7171-c878-493c-93a2-7d656b30ce07
 IF EXIST %FOLDER%\SATURDAY.veeam GOTO EOF
 IF EXIST %FOLDER%\SUNDAY.veeam GOTO EOF
 GOTO JOBSTART
-
 GOTO ERROR2
 
 :JOBSTART
