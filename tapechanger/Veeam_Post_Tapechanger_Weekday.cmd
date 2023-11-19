@@ -1,15 +1,3 @@
-@ECHO OFF
-REM https://github.com/frankenfrank/veeam/tree/main/tapechanger
-
-set PScmd=%0
-set PSscript=PowerShell -WindowStyle Hidden -NoProfile -ExecutionPolicy Bypass -Command -
-echo %0 %PSscript%
-
-REM The number after the plus sign determines from which line the code is passed to a PowerShell script.
-more +12 %0 | %PSscript%
-
-###Powershell Script starts here ###
-
 #Set Names of your Tapejobs
 $TapeJobMonday = "YOUR TAPEJOBNAME HERE"
 $TapeJobTuesday = "YOUR TAPEJOBNAME HERE"
@@ -27,4 +15,4 @@ if (Test-Path $folderPath\Friday.veeam) { $TapeJobName = "TapeJobFriday" }
 
 Get-VBRTapeJob -Name "$TapeJobName" | Start-VBRJob
 
-exit
+Exit
